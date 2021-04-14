@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @author: @tasiukwaplong
  */
@@ -22,6 +21,7 @@ class Database extends mysqli{
 	}
 
 	public function table($tableName = null){
+		// set table name using ->table('tableName')
 		if(is_null($tableName)) $this->setStatus(true, GENREAL_MESSAGES['table_name_not_set']);
 		else $this->table = $tableName;
 		return $this;
@@ -158,7 +158,7 @@ class Database extends mysqli{
 }
 
 // $db = new Database();
-$db = new Database(['table'=>'logins']);
+// $db = new Database(['table'=>'logins']);
 // print_r($db->insert(
 // [
 // 	'username' => 'username9',
