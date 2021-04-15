@@ -16,6 +16,10 @@ $messages_var = [
 	'data_deleted' => 'Delete operation successful.',
 	'no_data_deleted' => 'Could not delete. Search did not return any result',
 	'query_error' => 'The query run seem not to be correct',
+	'paystack_key_error'=>'An error occured trying to connect to paystack. Kindly provide a valid private key',
+	'insert_input_incomplete'=>'Input not complete. Could not add user.',
+	'user_add_error'=>'Unable to add user. Try again',
+	'user_add_success'=>'User added successfully.',
 ];
 
 define('GENREAL_MESSAGES', $messages_var);

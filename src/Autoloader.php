@@ -2,6 +2,8 @@
 /**
  * @author: @tasiukwaplong
  */
+require 'Config/config.php';
+
 spl_autoload_register(function($className){
     $dir = @scandir(__DIR__);
     // if (gettype($dir) !== 'array') die("$className class not found");
@@ -10,6 +12,10 @@ spl_autoload_register(function($className){
 
         if (file_exists($file.'.php')){
             require_once $file.'.php';
+        }
+
+        if($className === 'Database'){
+            require_once 'Models/Database/Database.php';
         }
     }
 });

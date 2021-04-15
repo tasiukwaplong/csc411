@@ -3,23 +3,22 @@
  * @author: @tasiukwaplong
  */
 
-class Database{
+class Database extends mysqli{
 	public $status = ['errored'=> false, 'message'=> ''];
 	private $table;
 	private $customQuery;
 	private $result;
-	private $db;
 
 	function __construct($options=['port'=>0, 'table'=>'']){
 		if(!empty($options['table'])) $this->table = $options['table'];
 		if (!$this->envVarIsSet()) {
 			$this->setStatus(true, GENREAL_MESSAGES['env_not_set']);
 		} else {
-		  $this->db = new mysqli(
+		  parent::__construct(
 			  DB_CONFIG['host'], DB_CONFIG['username'],
 			  DB_CONFIG['password'],DB_CONFIG['database'], $options['port']
 		  );
-		  if (mysqli_connect_errno($this->db)) $this->setStatus(true, mysqli_connect_error($this->db));
+		  if (mysqli_connect_errno()) $this->setStatus(true, mysqli_connect_error());
 	   }
 	}
 
@@ -31,19 +30,13 @@ class Database{
 	}
 
 	public function fetch( $selectQuery = null){
-	  // handles SELECT statements
+	  // handles SELECT statents
 	  if(is_null($selectQuery)) $this->customQuery = 'SELECT * FROM '.$this->table;
 	  else $this->customQuery = str_replace('{table}', $this->table, $selectQuery);	  
 	  return $this->runQuery()->fetchResults(); 
 	}
 
-	private function fetchResults(){
-		// run select statements
-		if ($this->result->num_rows < 1) {
-		  $this->setStatus(true, GENREAL_MESSAGES['no_data_yet']);
-		}else {
-		  ($this->result->num_rows === 1) ? $this->setStatus(false, $this->result->fetch_assoc()) : $this->fetchAsMultiple();
-		}
+	private function fetchResults(){		($this->result->num_rows < 1) ? $this->setStatus(true, GENREAL_MESSAGES['no_data_yet']) : $this->setStatus(false, $this->result->fetch_assoc());
 		return $this->status;
 	}
 
@@ -117,8 +110,9 @@ class Database{
 
 	private function runQuery(){
 	  // run sql query
+		// echo $this->customQuery;
 	  if ($this->status['errored']) return $this->status;
-	  $result = $this->db->query($this->customQuery);
+	  $result = parent::query($this->customQuery);
 	  
 	  if(!$result) $this->setStatus(true, mysqli_error($this));
 	  else $this->result = $result;	
@@ -162,6 +156,22 @@ class Database{
 	}
 
 	private function __destruct(){
-        $this->db->close();
+        parent::close();
     }
 }
+
+// $db = new Database();
+// $db = new Database(['table'=>'logins']);
+// print_r($db->insert(
+// [
+// 	'username' => 'username9',
+// 'password' => 'password',
+// 'type' => 'admin'
+// ]
+// ));
+// print_r($db->fetch());//all
+// print_r($db->fetch('SELECT * FROM {table} LIMIT 1'));
+// print_r($db->table('logins')->fetch('SELECT * FROM {table}', 'multiple'));
+// print_r($db->update('UPDATE {table} SET username = "tk" where id = 11'));
+// print_r($db->delete('DELETE FROM {table} WHERE username = "username9"'));
+// print_r($db->rawQuery('SELECT * FROM {table}')['message']->affected_rows);

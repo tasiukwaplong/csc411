@@ -14,15 +14,17 @@ error_reporting($error_report_status);
 $db_var = [
 	'DEV' => [
 		'host' => 'localhost',
-		'database' => 'srcm',
+		'database' => 'abc_insurance',
 		'username' => 'root',
 		'password' => '',
+		'paystack_private_key' => 'sk_live_e20ed6aa097e165a297ad09207e30896597c24e8',
 	],
 	'PROD' => [
 		'host' => '',
 		'database' => '',
 		'username' => '',
 		'password' => '',
+		'paystack_private_key' => '',
 	]
 ];
 
