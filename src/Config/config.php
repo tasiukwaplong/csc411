@@ -1,4 +1,5 @@
 <?php
+// sk_live_e20ed6aa097e165a297ad09207e30896597c24e8
 /**
  * @author: @tasiukwaplong
  * A simple config file for storing environment variables
@@ -17,7 +18,7 @@ $db_var = [
 		'database' => 'abc_insurance',
 		'username' => 'root',
 		'password' => '',
-		'paystack_private_key' => 'sk_live_e20ed6aa097e165a297ad09207e30896597c24e8',
+		'paystack_private_key' => '',
 		'frontend_url' => 'https://frontend.com',
 		'backend_url' => 'https://localhost/csc411/',
 	],
