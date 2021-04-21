@@ -19,7 +19,19 @@ $messages_var = [
 	'paystack_key_error'=>'An error occured trying to connect to paystack. Kindly provide a valid private key',
 	'insert_input_incomplete'=>'Input not complete. Could not add user.',
 	'user_add_error'=>'Unable to add user. Try again',
-	'user_add_success'=>'User added successfully.',
+	'user_add_success'=>'User account created successfully. Kindly check your email to complete your registration',
+	'email_or_password_empty'=>'Email or password field is empty. Login not possible',
+	'login_incorrect'=>'Could not log user in. Try again using correct username and password',
+	'account_exists'=>'User with same email already exist..!!',
+	'password_mismatch'=>'Passwords do not match. Try again',
+	'password_change_not_possible'=>'Sorry, could not change your password.',
+	'password_changed' => 'Password changed successfully',
+	'user_logged_out' => 'User logged out successfully',
+	'operation_not_success' => 'Operation not successful. Try again',
+	'inavalid_auth' => 'Could not authenticate you. Link already expired or link',
+	'already_verified' => 'Account already authenticated.',
+	'auth_success'=> 'Account successfully verified. You can proceed to log in now',
+	'user_not_auth'=>'Could not login. User not yet authenticated'
 ];
 
 define('GENREAL_MESSAGES', $messages_var);

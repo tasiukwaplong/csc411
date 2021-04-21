@@ -120,7 +120,7 @@ class Database{
 	  if ($this->status['errored']) return $this->status;
 	  $result = $this->db->query($this->customQuery);
 	  
-	  if(!$result) $this->setStatus(true, mysqli_error($this));
+	  if(!$result) $this->setStatus(true, mysqli_error($this->db));
 	  else $this->result = $result;	
 	  return $this;
 	}

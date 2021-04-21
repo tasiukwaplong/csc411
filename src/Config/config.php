@@ -18,6 +18,8 @@ $db_var = [
 		'username' => 'root',
 		'password' => '',
 		'paystack_private_key' => 'sk_live_e20ed6aa097e165a297ad09207e30896597c24e8',
+		'frontend_url' => 'https://frontend.com',
+		'backend_url' => 'https://localhost/csc411/',
 	],
 	'PROD' => [
 		'host' => '',
