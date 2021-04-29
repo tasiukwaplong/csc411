@@ -3,43 +3,45 @@
  * @author tasiukwaplong
  */
 
-class PaymentController extends Yabacon\Paystack{
+class TransactionsController extends Yabacon\Paystack{
     private $payStackKey = DB_CONFIG['paystack_private_key'] ?? null;
     public $status = ['errored'=>false, "message"=>''];
+    public $tableName = 'transaction';
 
-    public function __construct($payStackKey = null) {
+    function __construct($payStackKey = null) {
         $PAYSTACK_KEY = (is_null($payStackKey)) ? $this->payStackKey : $payStackKey; 
         try {
            parent::__construct($PAYSTACK_KEY);
          } catch (Exception $e) {
-           $this->setStatus(true, GENREAL_MESSAGES['paystack_key_error']);
+           $this->status(true, GENREAL_MESSAGES['paystack_key_error']);
          } 
-    }
-
-    function getKey(){
-      return DB_CONFIG['paystack_private_key'];
     }
 
     public function isHavingSuccessEvent($transaction) {
         # check if success event exist
-        return ('charge.success' === $transaction->description->event);
+        return ('success' === $transaction->data->status);
     }
 
     public function fetchTransactionData($ref){
       // fetch tranx data
-      $refStatus = json_decode($this->paystack_http("transaction/verify/$ref", 'GET', null));
-      return (isset($refStatus->status) && $refStatus->status)
-        ? $refStatus->data
-        : false;
+      $tranx = json_decode($this->paystack_http("transaction/verify/$ref", 'GET', null));
+
+      if (!isset($tranx->status) || !isset($tranx->status)) return $this->status(true, 'Could not verify payment. Wrong transaction reference number supplied');
+      // check if transaction is successful or not
+      if (!$this->isHavingSuccessEvent($tranx)) return $this->status(true, 'Payment was not successful.');
+      // $this->runUpdates();
+      return $this->status(false, 'Payment was successful.'.' Amount paid: NGN '.($tranx->data->amount)/100);
     }
 
-    public function referenceIsBeingPaid($refNo){
+
+
+    /*public function referenceIsBeingPaid($refNo){
         # check if payment actually exists
         $refStatus = json_decode($this->paystack_http("transaction/verify/$refNo", 'GET', null));
         return (!is_null($refStatus) && isset($refStatus->status) && ($refStatus->status));
-    }
+    }*/
 
-    public function receiptInformation($transaction, $dataToReturn = null){
+    /*public function receiptInformation($transaction, $dataToReturn = null){
         # get information regarding receipt such as payer, amount etc.
         $reference = (isset($transaction->description->data->reference))
           ? $transaction->description->data->reference
@@ -49,7 +51,7 @@ class PaymentController extends Yabacon\Paystack{
         }
 
         return null; // invalid transaction
-    }
+    }*/
 
     /*public function sendInvoice($email, $amount){
       // sendinvoice
@@ -94,14 +96,15 @@ class PaymentController extends Yabacon\Paystack{
       return ['errored'=>!$message, 'message'=>$message];
     }*/
 
-    private function setStatus($status = true, $message = 'An unidentified error just occured. ERR_500'){
+    private function status($status = true, $message = 'An unidentified error just occured. ERR_500'){
       // set $status errored and message if any 
       if (gettype($status) !== 'boolean') $this->status['errored'] = true;
       $this->status = ['errored' => $status, 'message'=>$message];
+      return $this->status;
     }
 
     private function paystack_http($endpoint, $callMethod, $data){
-        //make api call to paystack dashboard
+      //make api call to paystack dashboard
       $curl = curl_init();
       curl_setopt_array($curl, [
         CURLOPT_URL => "https://api.paystack.co/$endpoint",

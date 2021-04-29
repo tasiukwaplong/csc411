@@ -72,7 +72,7 @@ class Database{
       $result = $this->runQuery()->result;
 	  if ($this->status['errored']) return $this->status;
 
-      if ($this->affected_rows >= 1) $this->setStatus(false, GENREAL_MESSAGES['data_inserted']);
+      if (mysqli_affected_rows($this->db) >= 1) $this->setStatus(false, GENREAL_MESSAGES['data_inserted']);
       return $this->status;
 	}
 
@@ -85,7 +85,7 @@ class Database{
 
       if ($this->runQuery()->status['errored']) return $this->status;
 
-      ($this->affected_rows >= 1) ? $this->setStatus(false, GENREAL_MESSAGES['data_updated']) : $this->setStatus(true, GENREAL_MESSAGES['no_data_updated']);
+      (mysqli_affected_rows($this->db) >= 1) ? $this->setStatus(false, GENREAL_MESSAGES['data_updated']) : $this->setStatus(true, GENREAL_MESSAGES['no_data_updated']);
       return $this->status;
     }
 
@@ -98,7 +98,7 @@ class Database{
 
       if ($this->runQuery()->status['errored']) return $this->status;
 
-      ($this->affected_rows >= 1) ? $this->setStatus(false, GENREAL_MESSAGES['data_deleted']) : $this->setStatus(true, GENREAL_MESSAGES['no_data_deleted']);
+      ($this->result >= 1) ? $this->setStatus(false, GENREAL_MESSAGES['data_deleted']) : $this->setStatus(true, GENREAL_MESSAGES['no_data_deleted']);
       return $this->status;
     }
 

@@ -27,6 +27,53 @@ require_once('webhook/Paystack/autoload.php');
 // print_r($User->login('tasiukwaplong@gmail.com', '123456'));
 // print_r($User->changePassword('1388638922eaf979456970524463429e', '12345', '123456'));
 // print_r($User->logout('1388638922eaf979456970524463429e'));
+// $Trnx = new TransactionsController();
+// render(200, $Trnx->fetchTransactionData('T817679116875547'));
+
+// $Plans = new PlansController();
+// print_r($Plans->addPlan('SOME_TOKEN', [
+//     'name'=>'name6',
+//     'vehicle_type'=>'vehicle_type',
+//     'ncb'=>'20',
+//     'engine_size'=>'engine_size',
+//     'year_of_manufacture'=>'2015',
+//     'driving_experince'=>'3',
+//     'involvement_in_car_accident'=>false,
+//     'conviction_of_any_driving_offence'=>true,
+//     'price'=>20000
+// ]));
+// print_r($Plans->getPlan('name70'));
+// print_r($Plans->getPlans());
+// print_r($Plans->deletePlan('SOME_ADMIN_TOKEN', 'name2'));
+// $Quote = new QuotationRequestsController();
+// print_r($Quote->addQuotation('SOME_ADMIN_TOKEN', [
+//     'vehicle_type'=>'vehicle_type',
+//     'engine_size'=>'engine_size',
+//     'ncb'=>'10',
+//     'year_of_manufacture'=>'2014',
+//     'years_of_driving_experince'=>3,
+//     'involement_in_car_accident'=>true,
+//     'conviction_of_any_driving_offence'=>true,
+//     'name'=>'full name',
+//     'email'=>'email@mail.com',
+//     'phone'=>'08042424242'
+// ]));
+// print_r($Quote->getQuotation('1532549316e2935'));
+// print_r($Quote->getQuotations('SOME-ADMIN_TOKEN'));
+// print_r($Quote->deleteQuotation('SOME_ADMIN_TOKEN', '1532549316e2935'));
+// print_r($Quote->deleteQuotation('SOME_ADMIN_TOKEN', '1532549316e2935'));
+// print_r($Quote->approveQuotation('SOME_ADMIN_TOKEN', '1547328805001fc8dccd', 222));
+$Policy = new UserInsurancePolicies();
+print_r($Policy->createInsurancePolicy([
+  'transactions_id'=>'iddddd', 
+  'amount_paid'=>'amount_paid', 
+  'user_id'=>'user_id', 
+  'plans_id'=>'plans_id', 
+  'quotation_request_id'=>'quotation_request_id', 
+  'engine_number'=>'engine_number', 
+  'chassis_number'=>'chassis_number', 
+  'vehicle_license_number'=>'vehicle_license_number'
+]));
 ######################TESTING END HERE###########################
 
 // handle post and get requests
@@ -62,10 +109,46 @@ switch ($req) {
         $User = new UsersController();
         render(200, $User->logout($input['token']));
         break;  
+    case 'post-plan-create':
+       $Plans = new PlansController();
+       render(200, $Plans->addPlan($input['token'], $input['data']));
+       break;
+    case 'post-quote-create':
+       $Quote = new QuotationRequestsController();
+       render(200, $Quote->addQuotation($input['token'], $input['data']));
+       break;
+    case 'post-plan-delete':
+       $Plans = new PlansController();
+       render(200, $Plans->deletePlan($input['token'], $input['name']));
+       break;
+    case 'post-quotes':
+        $Quote = new QuotationRequestsController();
+        render(200, $Quote->getQuotations($input['token']));
+        break;
+    case 'post-quote-delete':
+        $Quote = new QuotationRequestsController();
+        render(200, $Quote->deleteQuotation($input['token'], $input['ref']));
+        break;
+    case 'post-quote-approve':
+        $Quote = new QuotationRequestsController();
+        render(200, $Quote->approveQuotation($input['token'], $input['ref'], $input['price']));
+        break;
     case 'get-user-verify':
         $User = new UsersController();
         render(200, $User->authenticateUser($input['ut']));
-        break;  
+        break;
+    case 'get-plan':
+       $Plans = new PlansController();
+       render(200, $Plans->getPlan($input['name']));
+       break;
+    case 'get-plans':
+       $Plans = new PlansController();
+       render(200, $Plans->getPlans());
+       break;
+    case 'get-quote':
+        $Quote = new QuotationRequestsController();
+        render(200, $Quote->getQuotation($input['ref']));
+        break;
     default:
         render(400, ['errored'=>true, 'message'=>'use `req` parameter', "input" => $input]);
         break;

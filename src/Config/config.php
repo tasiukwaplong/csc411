@@ -23,11 +23,13 @@ $db_var = [
 		'backend_url' => 'https://localhost/csc411/',
 	],
 	'PROD' => [
-		'host' => '',
-		'database' => '',
-		'username' => '',
-		'password' => '',
+		'host' => 'localhost',
+		'database' => 'id16659254_abc_insurance',
+		'username' => 'id16659254_root_admin',
+		'password' => '##7277Password',
 		'paystack_private_key' => '',
+		'frontend_url' => 'https://frontend.com',
+		'backend_url' => 'https://localhost/csc411/',
 	]
 ];
 
