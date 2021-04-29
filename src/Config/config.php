@@ -1,4 +1,5 @@
 <?php
+// sk_live_e20ed6aa097e165a297ad09207e30896597c24e8
 /**
  * @author: @tasiukwaplong
  * A simple config file for storing environment variables
@@ -14,15 +15,21 @@ error_reporting($error_report_status);
 $db_var = [
 	'DEV' => [
 		'host' => 'localhost',
-		'database' => 'srcm',
+		'database' => 'abc_insurance',
 		'username' => 'root',
 		'password' => '',
+		'paystack_private_key' => '',
+		'frontend_url' => 'https://frontend.com',
+		'backend_url' => 'https://localhost/csc411/',
 	],
 	'PROD' => [
-		'host' => '',
-		'database' => '',
-		'username' => '',
-		'password' => '',
+		'host' => 'localhost',
+		'database' => 'id16659254_abc_insurance',
+		'username' => 'id16659254_root_admin',
+		'password' => '##7277Password',
+		'paystack_private_key' => '',
+		'frontend_url' => 'https://frontend.com',
+		'backend_url' => 'https://localhost/csc411/',
 	]
 ];
 
