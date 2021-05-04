@@ -1,13 +1,12 @@
 <?php
 // sk_live_e20ed6aa097e165a297ad09207e30896597c24e8
 /**
- * @author: @tasiukwaplong
  * A simple config file for storing environment variables
  * Works with only MYSQL.
  * @usage: DB_CONFIG
  */
 require 'messages.php';
-$current_env = 'DEV';
+$current_env = 'PROD';
 
 $error_report_status = ($current_env === 'DEV') ? 1 : 0; 
 error_reporting($error_report_status);
@@ -18,7 +17,7 @@ $db_var = [
 		'database' => 'abc_insurance',
 		'username' => 'root',
 		'password' => '',
-		'paystack_private_key' => '',
+		'paystack_private_key' => 'sk_test_f62006c100fd5fbd8aa7c980f4281f13d256c9f3',
 		'frontend_url' => 'https://frontend.com',
 		'backend_url' => 'https://localhost/csc411/',
 	],

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2021 at 10:14 PM
+-- Generation Time: May 04, 2021 at 07:07 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.3
 
@@ -47,10 +47,11 @@ CREATE TABLE `plans` (
 --
 
 INSERT INTO `plans` (`id`, `name`, `vehicle_type`, `ncb`, `engine_size`, `year_of_manufacture`, `driving_experince`, `involvement_in_car_accident`, `conviction_of_any_driving_offence`, `created_date`, `price`) VALUES
-(14, 'name7', 'vehicle_type', '20', 'engine_size', '2015', 3, 0, 1, '2021-04-25 21:48:19', 20000),
+(2, 'name7', 'vehicle_type', '20', 'engine_size', '2015', 3, 0, 1, '2021-04-25 21:48:19', 20000),
 (19, 'name4', 'vehicle_type', '20', 'engine_size', '2015', 3, 0, 1, '2021-04-25 21:48:45', 20000),
 (20, 'name6', 'vehicle_type', '20', 'engine_size', '2015', 3, 0, 1, '2021-04-25 21:48:48', 20000),
-(21, 'name8p', 'vehicle_type', '20', 'engine_size', '2015', 3, 0, 1, '2021-04-27 05:14:47', 2000);
+(21, 'name8p', 'vehicle_type', '20', 'engine_size', '2015', 3, 0, 1, '2021-04-27 05:14:47', 2000),
+(22, 'someName', 'vehicle_type', '20', 'engine_size', '2015', 3, 0, 1, '2021-04-27 20:34:18', 2000);
 
 -- --------------------------------------------------------
 
@@ -84,7 +85,10 @@ INSERT INTO `quotation_request` (`id`, `vehicle_type`, `engine_size`, `ncb`, `ye
 (3, 'vehicle_type', 'engine_size', '10', '2014', 3, 1, 1, '2021-04-25 22:16:09', 'full name', 'email@mail.com', '08042424242', 1, '202697521765952088b', 230000),
 (4, 'vehicle_type', 'engine_size', '10', '2014', 3, 1, 1, '2021-04-25 22:18:14', 'full name', 'email@mail.com', '08042424242', 0, '946637056139ed697a9', 0),
 (5, 'vehicle_type', 'engine_size', '10', '2014', 3, 1, 1, '2021-04-25 22:18:29', 'full name', 'email@mail.com', '08042424242', 0, '73680067611010', 0),
-(6, 'vehicle_type', 'engine_size', '10', '2014', 3, 1, 1, '2021-04-27 05:20:05', 'full name', 'email@mail.com', '08042424242', 0, '6422250650cbb8', 0);
+(6, 'vehicle_type', 'engine_size', '10', '2014', 3, 1, 1, '2021-04-27 05:20:05', 'full name', 'email@mail.com', '08042424242', 0, '6422250650cbb8', 0),
+(7, 'vehicle_type', 'engine_size', '10', '2014', 3, 1, 1, '2021-05-03 19:33:13', 'full name', 'email@mail.com', '08042424242', 0, '193427234022236', 0),
+(8, 'vehicle_type', 'engine_size', '10', '2014', 3, 1, 1, '2021-05-03 19:37:56', 'full name', 'email@mail.com', '08042424242', 0, '45266845365810', 0),
+(9, 'vehicle_type', 'engine_size', '10', '2014', 3, 1, 1, '2021-05-03 19:37:59', 'full name', 'email@mail.com', '08042424242', 0, '19568541954fde4', 0);
 
 -- --------------------------------------------------------
 
@@ -95,7 +99,7 @@ INSERT INTO `quotation_request` (`id`, `vehicle_type`, `engine_size`, `ncb`, `ye
 CREATE TABLE `transactions` (
   `id` int(11) NOT NULL,
   `transaction_id` varchar(45) NOT NULL,
-  `created_date` date NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -104,7 +108,8 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`id`, `transaction_id`, `created_date`, `user_id`) VALUES
-(1, 'iddddd', '2021-04-05', 40);
+(1, 'iddddd', '2021-04-04 23:00:00', 40),
+(15, 'T413549544715378', '2021-05-03 20:36:50', 1);
 
 -- --------------------------------------------------------
 
@@ -132,7 +137,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `address`, `dob`, `password`, `date_created`, `active`, `temp_email`, `user_token`) VALUES
-(39, 'Val_first_name', 'Val_last_name', 'tasiukwaplong@gmail.com', 'Val_phone', 'Val_address', '1996-12-01', '$2y$10$NIekTXAxJZzArRz4c6YG5uGCD0k/1hM5Q9KKtd0q7GMPJ.w7/ACCa', '2021-04-21 10:59:42', 1, '', '61865008587d7014d8c88e93f379611'),
+(1, 'Val_first_name', 'Val_last_name', 'tasiukwaplong@gmail.com', 'Val_phone', 'Val_address', '1996-12-01', '$2y$10$NIekTXAxJZzArRz4c6YG5uGCD0k/1hM5Q9KKtd0q7GMPJ.w7/ACCa', '2021-04-21 10:59:42', 1, '', '61865008587d7014d8c88e93f379611'),
 (40, 'Tasiu', 'Kwaplong', 'tasiu4ll@gmail.com', '090315143464', 'Tudun kauri', '1996-12-12', '$2y$10$uhCJ7h8kLEZ1g.7LlTxKjOKRzLp0QNp7022qOKXCLSQmRr64Q8vAO', '2021-04-21 14:21:30', 1, '', '126149774886224ce053417a5aeed854c7ebb5add5');
 
 -- --------------------------------------------------------
@@ -143,19 +148,26 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `address
 
 CREATE TABLE `user_insurance_policies` (
   `id` int(11) NOT NULL,
-  `start_date` date NOT NULL,
-  `end_date` date NOT NULL,
-  `date_created` date NOT NULL,
-  `amount_paid` int(11) NOT NULL,
+  `start_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `end_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `amount_paid` double NOT NULL,
   `engine_number` varchar(45) NOT NULL,
   `chassis_number` varchar(45) NOT NULL,
   `vehicle_license_number` varchar(45) NOT NULL,
   `expired` tinyint(4) NOT NULL DEFAULT '0',
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `plans_id` int(11) DEFAULT NULL,
   `quotation_request_id` int(11) DEFAULT NULL,
   `transactions_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `user_insurance_policies`
+--
+
+INSERT INTO `user_insurance_policies` (`id`, `start_date`, `end_date`, `date_created`, `amount_paid`, `engine_number`, `chassis_number`, `vehicle_license_number`, `expired`, `user_id`, `plans_id`, `quotation_request_id`, `transactions_id`) VALUES
+(8, '2021-05-03 21:36:51', '2022-05-03 21:36:51', '2021-05-03 20:36:51', 550000, 'eng111', 'chas222', 'chas222', 0, 1, 2, NULL, 15);
 
 --
 -- Indexes for dumped tables
@@ -216,19 +228,19 @@ ALTER TABLE `user_insurance_policies`
 -- AUTO_INCREMENT for table `plans`
 --
 ALTER TABLE `plans`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `quotation_request`
 --
 ALTER TABLE `quotation_request`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -240,7 +252,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_insurance_policies`
 --
 ALTER TABLE `user_insurance_policies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables

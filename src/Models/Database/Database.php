@@ -8,7 +8,7 @@ class Database{
 	private $table;
 	private $customQuery;
 	private $result;
-	private $db;
+	public $db;
 
 	function __construct($options=['port'=>0, 'table'=>'']){
 		if(!empty($options['table'])) $this->table = $options['table'];
@@ -73,6 +73,8 @@ class Database{
 	  if ($this->status['errored']) return $this->status;
 
       if (mysqli_affected_rows($this->db) >= 1) $this->setStatus(false, GENREAL_MESSAGES['data_inserted']);
+        // $this->setStatus(true, $this->customQuery);
+
       return $this->status;
 	}
 
@@ -161,7 +163,7 @@ class Database{
 		return $this->status;
 	}
 
-	private function __destruct(){
+	function __destruct(){
         $this->db->close();
     }
 }

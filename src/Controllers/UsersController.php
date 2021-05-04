@@ -1,7 +1,5 @@
 <?php
-/**
- * @author: tasiukwaplong
- */
+
 class UsersController extends Database{
 	public $tableName = 'users';
 
@@ -61,6 +59,11 @@ class UsersController extends Database{
 	  parent::update("UPDATE {table} SET email = '$email', temp_email = '' WHERE user_token = '$userToken'");
 	  $this->status(false, 'NULL_ERROR');
 	  parent::delete("DELETE FROM {table} WHERE temp_email = '$email' AND user_token <> '$userToken'");
+	}
+
+	public function bulkCreate($adminToken = null, $data = []){
+	  if (is_null($adminToken)) return $this->status(true, GENREAL_MESSAGES['admin_not_auth']);
+	  return $this->status(false, GENREAL_MESSAGES['bulk_succeess']);
 	}
 
 	private function getUserType($email){

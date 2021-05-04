@@ -1,7 +1,4 @@
 <?php
-/**
- * @author tasiukwaplong
- */
 
 class TransactionsController extends Yabacon\Paystack{
     private $payStackKey = DB_CONFIG['paystack_private_key'] ?? null;
@@ -22,15 +19,61 @@ class TransactionsController extends Yabacon\Paystack{
         return ('success' === $transaction->data->status);
     }
 
-    public function fetchTransactionData($ref){
+    public function fetchTransactionData($ref = null){
       // fetch tranx data
+      if (is_null($ref)) return $this->status(true, GENREAL_MESSAGES['payment_not_verified']);
+
       $tranx = json_decode($this->paystack_http("transaction/verify/$ref", 'GET', null));
 
-      if (!isset($tranx->status) || !isset($tranx->status)) return $this->status(true, 'Could not verify payment. Wrong transaction reference number supplied');
+      if (!isset($tranx->status) || !isset($tranx->status)) return $this->status(true, GENREAL_MESSAGES['payment_not_verified']);
       // check if transaction is successful or not
       if (!$this->isHavingSuccessEvent($tranx)) return $this->status(true, 'Payment was not successful.');
-      // $this->runUpdates();
-      return $this->status(false, 'Payment was successful.'.' Amount paid: NGN '.($tranx->data->amount)/100);
+      // extract to variables
+      extract($this->getRequiredData($tranx));
+      $DB = new Database();
+      $DB->table('transactions');
+      // insert to db
+      if (!$DB->insert([
+             'transaction_id' => $transactions_id,
+             'user_id' => $user_id
+         ])['errored'])
+      {
+        //if success, add user_insurance_policy
+        $Policy = new UserInsurancePolicies();
+        return $Policy->createInsurancePolicy([
+          'transactions_id'=>mysqli_insert_id($DB->db),
+          'amount_paid'=>$amount_paid,
+          'user_id'=>$user_id,
+          'quotation_request_id'=>$quotation_request_id,
+          'plans_id'=>$plans_id,
+          'engine_number'=>$engine_number,
+          'chassis_number'=>$chassis_number,
+          'vehicle_license_number'=>$vehicle_license_number
+        ]);
+        // return $this->status(false, mysqli_insert_id($DB->db));
+      }else {
+        return $this->status(true, GENREAL_MESSAGES['unable_to_add_policy']);
+      }
+
+      return $this->status(false, 'hello');
+    }
+
+
+    private function getRequiredData($tranxData){
+      // extract required info
+      $extractedData = [
+        'transactions_id'=>$tranxData->data->reference,
+        'amount_paid'=>$tranxData->data->amount,
+        'user_id'=>$tranxData->data->metadata->custom_fields[0]->value,
+        'quotation_request_id'=>$tranxData->data->metadata->custom_fields[1]->value ?? 'NULL',
+        'plans_id'=>$tranxData->data->metadata->custom_fields[2]->value ?? 'NULL',
+        'engine_number'=>$tranxData->data->metadata->custom_fields[3]->value,
+        'chassis_number'=>$tranxData->data->metadata->custom_fields[4]->value,
+        'vehicle_license_number'=>$tranxData->data->metadata->custom_fields[4]->value,
+      ];
+
+      return $extractedData;
+      // $tranx->data->metadata->custom_fields;
     }
 
 
