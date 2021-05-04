@@ -1,7 +1,4 @@
 <?php
-/**
- * @author tasiukwaplong
- */
 require_once('src/Autoloader.php');
 header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *");
@@ -28,7 +25,7 @@ require_once('webhook/Paystack/autoload.php');
 // print_r($User->changePassword('1388638922eaf979456970524463429e', '12345', '123456'));
 // print_r($User->logout('1388638922eaf979456970524463429e'));
 // $Trnx = new TransactionsController();
-// render(200, $Trnx->fetchTransactionData('T817679116875547'));
+// render(200, $Trnx->fetchTransactionData('T413549544715378'));
 
 // $Plans = new PlansController();
 // print_r($Plans->addPlan('SOME_TOKEN', [
@@ -46,7 +43,7 @@ require_once('webhook/Paystack/autoload.php');
 // print_r($Plans->getPlans());
 // print_r($Plans->deletePlan('SOME_ADMIN_TOKEN', 'name2'));
 // $Quote = new QuotationRequestsController();
-// print_r($Quote->addQuotation('SOME_ADMIN_TOKEN', [
+// print_r($Quote->addQuotation([
 //     'vehicle_type'=>'vehicle_type',
 //     'engine_size'=>'engine_size',
 //     'ncb'=>'10',
@@ -63,17 +60,18 @@ require_once('webhook/Paystack/autoload.php');
 // print_r($Quote->deleteQuotation('SOME_ADMIN_TOKEN', '1532549316e2935'));
 // print_r($Quote->deleteQuotation('SOME_ADMIN_TOKEN', '1532549316e2935'));
 // print_r($Quote->approveQuotation('SOME_ADMIN_TOKEN', '1547328805001fc8dccd', 222));
-$Policy = new UserInsurancePolicies();
-print_r($Policy->createInsurancePolicy([
-  'transactions_id'=>'iddddd', 
-  'amount_paid'=>'amount_paid', 
-  'user_id'=>'user_id', 
-  'plans_id'=>'plans_id', 
-  'quotation_request_id'=>'quotation_request_id', 
-  'engine_number'=>'engine_number', 
-  'chassis_number'=>'chassis_number', 
-  'vehicle_license_number'=>'vehicle_license_number'
-]));
+// $Policy = new UserInsurancePolicies();
+// print_r($Policy->createInsurancePolicy([
+//   'transactions_id'=>2,
+//   'amount_paid'=>203000,
+//   'user_id'=>39,
+//   'quotation_request_id'=>NULL,
+//   'plans_id'=>NULL,
+//   'engine_number'=>'engine_number',
+//   'chassis_number'=>'chassis_number',
+//   'vehicle_license_number'=>'vehicle_license_number'
+// ]));
+
 ######################TESTING END HERE###########################
 
 // handle post and get requests
@@ -88,9 +86,11 @@ if ((strtoupper($_SERVER['REQUEST_METHOD']) === 'POST' )){
         : $input;
 }else{
     $req = 'get-';
-    $req .= (isset($_GET['req'])) ? htmlspecialchars($_GET['req']) : null;
+    $req .= (isset($_GET['req'])) ? htmlspecialchars($_GET['req']) : '';
+    if (isset($_GET['reference'])) $req .= 'reference';
     $input = $_GET;
 }
+
 
 switch ($req) {
     case 'post-user-create':
@@ -148,6 +148,18 @@ switch ($req) {
     case 'get-quote':
         $Quote = new QuotationRequestsController();
         render(200, $Quote->getQuotation($input['ref']));
+        break;
+    case 'get-reference':
+         $Tranx = new TransactionsController();
+         render(200, $Tranx->fetchTransactionData($input['reference']));
+        break;
+    case 'post-users-create':
+        $Users = new UsersController();
+        render(200, $Users->bulkCreate($input['token'], $input['data']));
+        break;
+    case 'post-plan-search':
+        $Plans = new PlansController();
+        render(200, $Plans->searchPlans($input));
         break;
     default:
         render(400, ['errored'=>true, 'message'=>'use `req` parameter', "input" => $input]);

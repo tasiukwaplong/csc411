@@ -1,8 +1,4 @@
 <?php
-/**
- * @author: @tasiukwaplong
- */
-
 $messages_var = [
 	'connection_issue' => 'Sorry, connection to database not possible',
 	'table_name_not_set' => 'Table name not set. kindly pass it as parameter',
@@ -21,7 +17,7 @@ $messages_var = [
 	'user_add_error'=>'Unable to add user. Try again',
 	'user_add_success'=>'User account created successfully. Kindly check your email to complete your registration',
 	'email_or_password_empty'=>'Email or password field is empty. Login not possible',
-	'login_incorrect'=>'Could not log user in. Try again using correct username and password',
+	'login_incorrect'=>'Login not successful. Username or password incorrect.',
 	'account_exists'=>'User with same email already exist..!!',
 	'password_mismatch'=>'Passwords do not match. Try again',
 	'password_change_not_possible'=>'Sorry, could not change your password.',
@@ -47,7 +43,10 @@ $messages_var = [
 	'quote_not_updated'=>'Quotation not updated. Try again',
 	'quote_updated'=>'Quotation request updated successfully.',
 	'unable_to_add_policy'=>'Unable to verify payment, insurance policy not created.',
-	'policy_added'=>'Payment successful. Insurance policy has been purchased. Check your email for receipt of payment. '
+	'policy_added'=>'Payment successful. Insurance policy has been purchased. Check your email for receipt of payment. ',
+	'payment_not_verified'=>'Could not verify payment. Wrong transaction reference number supplied',
+	'plan_not_found'=>'No plan matches your search query. Kindly proceed to make quotation',
+	'bulk_succeess'=>'Upload successful. Users accounts created successfully'
 ];
 
 define('GENREAL_MESSAGES', $messages_var);

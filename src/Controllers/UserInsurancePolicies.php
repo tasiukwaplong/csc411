@@ -1,7 +1,5 @@
 <?php
-/**
- * @author: tasiukwaplong
- */
+
 class UserInsurancePolicies extends Database{
 	public $tableName = 'user_insurance_policies';
 
@@ -26,15 +24,15 @@ class UserInsurancePolicies extends Database{
 			'chassis_number'=>$data['chassis_number'],
 			'vehicle_license_number'=>$data['vehicle_license_number'],
 			'user_id'=>$data['user_id'],
-			'plans_id'=>$data['plans_id'],
-			'quotation_request_id'=>$data['quotation_request_id'],
+			'plans_id'=>$data['plans_id'] ?? 'NULL',
+			'quotation_request_id'=>$data['quotation_request_id'] ?? 'NULL',
 			'transactions_id'=>$data['transactions_id']
 	  	  ];
+	  	  extract($dataToInsert);
+	  	  $query = "INSERT INTO {table} (start_date,end_date,amount_paid,engine_number,chassis_number,vehicle_license_number,user_id,plans_id,quotation_request_id,transactions_id) VALUES('$start_date','$end_date','$amount_paid','$engine_number','$chassis_number','$vehicle_license_number',$user_id,$plans_id,$quotation_request_id,$transactions_id)";
 
-	  	  if (parent::insert($dataToInsert)['errored']) return $this->status(true,$this->status);
-	      else return $this->status(false, GENREAL_MESSAGES['policy_added']).'Your insurance cover will last for 1 year ('.$dataToInsert['start_date'].'-'.$dataToInsert['end_date'].').';
-	    // unknown error
-	    return $this->status(false, GENREAL_MESSAGES['policy_added']).'Your insurance cover will last for 1 year ('.$dataToInsert['start_date'].'-'.$dataToInsert['end_date'].').';
+	  	  if (parent::rawQuery($query)['errored']) return $this->status(true, GENREAL_MESSAGES['unable_to_add_policy']);
+	      else return $this->status(false, GENREAL_MESSAGES['policy_added'].'Your insurance cover will last for 1 year ('.$dataToInsert['start_date'].'-'.$dataToInsert['end_date'].').');
 	}
 
 	private function isAdmin($token){
@@ -82,7 +80,7 @@ class UserInsurancePolicies extends Database{
    		 $email->sendMail(
 		 $quoteData['email'],
 		  'YOUR QUOTATION IS READY '.$quoteData['reference_id'],
-		  "Hello ".$quoteData['name'].". <br>Your quotation with reference id: ".$quoteData['reference_id']." has been approved. Kindly proceed to make payment of NGN".$price
+		  "Hello ".$quoteData['name'].". <br>Your quotation with reference id: ".$quoteData['reference_id']." has been approved. Kindly proceed to make payment of HKD".$price
 		);
 	    return $this->status(false, GENREAL_MESSAGES['quote_updated'].'. Reference id: '.$quoteData['reference_id']);
 	  }

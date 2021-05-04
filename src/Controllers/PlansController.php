@@ -1,7 +1,4 @@
 <?php
-/**
- * @author: tasiukwaplong
- */
 class PlansController extends Database{
 	public $tableName = 'plans';
 
@@ -55,6 +52,14 @@ class PlansController extends Database{
 	   if (is_null($planData['name'])) return $this->status(true, GENREAL_MESSAGES['plan_not_exists']);
 	   if (parent::delete("DELETE FROM {table} WHERE name = '$planName' LIMIT 1")['errored']) return $this->status(true, GENREAL_MESSAGES['plan_not_deleted'] ?? $this->status['message']);
 		else return $this->status(false, GENREAL_MESSAGES['plan_deleted']);
+	}
+
+	public function searchPlans($data = ''){
+		$expected_fields = ['type','engine_size','ncb','year_of_manufacture','driving_experience','involvement_in_any_motor_accident'];
+
+		$keyExist = array_diff($expected_fields, array_keys($data));
+		if (count($keyExist) !== 0 || count($data) <= 5) return $this->status(true, GENREAL_MESSAGES['insert_input_incomplete']);
+		return $this->status(true, GENREAL_MESSAGES['plan_not_found']);
 	}
 
 	private function status($status, $message){

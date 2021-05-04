@@ -1,7 +1,4 @@
 <?php
-/**
- * @author tasiukwaplong
- */
 class EmailController {
     public $secret_key = 'tk_test_5706c144312501134be78eb5dcdf30989c387c03';
 
